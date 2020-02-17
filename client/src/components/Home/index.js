@@ -1,90 +1,62 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { CardContent } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
+import Rating from '@material-ui/lab/Rating';
 import Typography from '@material-ui/core/Typography';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
+import './home.css'
 
 const useStyles = makeStyles(theme => ({
     root: {
+        height: 310,
         width: 250,
-        height: 300,
-        maxHeight : 500,
+        maxHeight : 350,
         margin : 5,
         boxShadow: 3,
       },
       media: {
-        height: 300,
-        width:400
+        display: 'block',
+        width: '100%',
+        height: 310,
       },
-      content: {
-        width : 400,
-        maxHeight: 180,
-      },
-      actions: {
-        width : 400,
-        maxHeight: 20,
-      },
-  
 }));
 
 export default function Home(props) {
     const {movies} = props;
     const classes = useStyles();
-    const [over, setOver] = React.useState(null);
-    return (
+    return(
         <>
         <Grid container justify="center">
-            {movies.movies && movies.movies.map(element => 
-                <Card key={element.id} className={classes.root}>
-                    {/* <CardHeader
-                        className={classes.header}
-                        title={element.title_long}
-                        subheader={"Genres: " + element.genres.map(e => `${e}` + ' ')}
-                    /> */}
-                    <CardMedia
+            {movies.movies && movies.movies.map(element =>  (
+            <Card className={classes.root} key={element.id || element._id}>
+                <div className="container">
+                    <img
                         className={classes.media}
-                        image={element.background_image_original}
-                        onMouseOver={() => {setOver(true)
-                            console.log(over)}}
+                        src={(element.medium_cover_image && 'https://img.'+element.medium_cover_image.split('https://')[1] )|| (element.images.poster)} 
+                        alt={element.title_long || element.title}
                     />
-                    { over === true && <CardContent className={classes.content}>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                        {element.summary ? element.summary : 'No summary'}
-                        </Typography>
-                    </CardContent> }
-                    
-                </Card>
-            )}
-
+                    <div className="overlay">
+                        <div className="text">
+                            <h1>{element.title_long || element.title + (element.year && ` (${element.year})`)}</h1>
+                            <Typography component="legend">Rating ({
+                                (element.rating.percentage && (element.rating.percentage * 10 / 100).toFixed(1)) || 
+                                (element.rating && (element.rating * 1).toFixed(1))
+                                })
+                            </Typography>
+                            <Rating 
+                                name="read-only" 
+                                value={(element.rating.percentage && element.rating.percentage * 10 / 100) || 
+                                (element.rating && element.rating)}
+                                precision={0.1}
+                                readOnly
+                                max={10}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Card>
+            ))}
         </Grid>
         </>
     );
-    // return(
-    //     <>
-    //     <Grid container justify="center">
-    //         <GridList>
-    //             {movies.movies && movies.movies.map(element =>  (
-    //             <GridListTile className={classes.root} key={element.id} onMouseOver={() => setOver(true)} onMouseOut={() => setOver(false)}>
-    //                 <img 
-    //                     className={classes.media} 
-    //                     src={element.background_image_original} 
-    //                     alt={element.title} 
-                        
-    //                 />
-    //                 {over === true && <GridListTileBar
-    //                     title={element.title_long}
-    //                     subtitle={<span>{element.summary}</span>}
-    //                 />}
-    //             </GridListTile>
-    //             ))}
-    //         </GridList>
-    //     </Grid>
-    //     </>
-    // );
 }

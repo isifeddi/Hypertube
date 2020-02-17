@@ -19,7 +19,6 @@ import {Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
-import PersonIcon from '@material-ui/icons/Person';
 import AppsIcon from '@material-ui/icons/Apps';
 
 const drawerWidth = 240;
