@@ -1,24 +1,31 @@
-import {takeLatest, put,call} from "redux-saga/effects";
+import {takeLatest, put,call, select} from "redux-saga/effects";
 //import {push} from "react-router-redux";
 //import {resetState} from '../actions/resetStateAction';
 import {GetMoviesError, GetMoviesSuccess} from '../actions/moviesAction';
 import {request} from './helper';
 
 const getMovies =
-    function *getMovies () {
+    function *getMovies ({indice}) {
         try {
+            // const id = yield select((state) => state.user.id);
+            // const token = yield select((state) => state.user.token);
             const response = yield call(request, {
-                //"url": "https://yts.unblocked4u.org/api/v2/list_movies.json/?limit=50&sort_by=rating&order_by=desc&page=1",
-                "url": "https://tv-v2.api-fetch.website/movies/1?sort=year,rating&order=-1",
-                "method": "GET"
+                "url": 'http://localhost:5000/getMovies',
+                "data": {page:  indice},
+                "method": "POST"
             });
-            if(response.data.status === 'ok'){
-                
-                yield put(GetMoviesSuccess(response.data.data.movies));
+            if(response.data.length > 0){
+                let oldData = yield select ((state) => state.movies.movies)
+                let newData = response.data;
+                let data = null;
+                if(indice.indice !== 0)
+                    data = oldData.concat(newData);
+                else
+                    data = newData;
+                yield put(GetMoviesSuccess(data));
             }
             else
-                yield put(GetMoviesSuccess(response.data));
-
+                yield put(GetMoviesError('error'));
         }catch (error) {
             if (error.response) {
                 yield put(GetMoviesError("error.response.statusText", "error.response.status"));
@@ -27,5 +34,5 @@ const getMovies =
     };
 
 export default function *() {
-  yield takeLatest("GET_MOVIES", getMovies);
+    yield takeLatest("GET_MOVIES", getMovies);
 }
