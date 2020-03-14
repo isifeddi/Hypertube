@@ -59,7 +59,7 @@ The page of the streaming film contain also a bunch of similiar films.
 * Login
 ![Login](server/public/images/login.png)
 * Home
-![Home](server/public/images/home.png)
+![Home](server/public/images/Home.png)
 ![Sort](server/public/images/sort.png)
 * Profile
 ![Profile](server/public/images/profileIlyas.png)
