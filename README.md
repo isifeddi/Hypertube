@@ -66,8 +66,6 @@ The page of the streaming film contain also a bunch of similiar films.
 * Movie page
 ![moviePage](server/public/images/profileMovie.png)
 ![streaming](server/public/images/stream.png)
-* Chat
-![chat](server/public/images/chat.png)
 <hr>
 
 > # Created By : 
