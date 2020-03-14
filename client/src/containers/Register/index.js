@@ -3,6 +3,7 @@ import {InscriptionAction} from '../../actions/registerAction';
 import {connect} from "react-redux";
 import {reduxForm } from 'redux-form';
 
+
 const validate = (values) => {
     const errors = {};
     const requiredFields = [
@@ -19,7 +20,12 @@ const validate = (values) => {
             errors[field] = 'Required !';
         }
     });
-
+    if(!values['picture'])
+        errors['picture'] = 'Required !';
+    if(values.firstname && !/^[a-zA-Z]{2,20}$/.test(values.firstname))
+        errors.firstname = 'Firstname can contain 2-20 characters, letters (a-z)';
+    if(values.lastname && !/^[a-zA-Z]{2,20}$/.test(values.lastname))
+        errors.lastname = 'Lastname can contain 2-20 characters, letters (a-z)';
     if(values.username && !/^[a-z0-9_-]{2,20}$/.test(values.username))
         errors.username = 'Username can contain 2-20 characters, letters (a-z), numbers, "_" and "-"';
     if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email))
@@ -39,22 +45,37 @@ const validate = (values) => {
     return errors;
 }
 
+
 const mapStateToProps = (state) => (
 {
     "form" : state.form,
+    "user" : state.user,
     "status" : state.register.registerStatus,
-    "err": state.register.error
+    "err": state.register.error,
 });
 const mapDispatchToProps = {
-    "registerAction": InscriptionAction
+    "registerAction": InscriptionAction,
 };
 const mergeProps = (stateProps, dispatchProps, otherProps)=> ({
     ...stateProps,
     ...dispatchProps,
     ...otherProps,
     "handleSubmit" : otherProps.handleSubmit((form)=>{
-        dispatchProps.registerAction(form);
-    })
+        const formData = new FormData();
+        formData.append('files',form.picture);
+        formData.append('lastname',form.lastname);
+        formData.append('firstname',form.firstname);
+        formData.append('username',form.username);
+        formData.append('email',form.email);
+        formData.append('password',form.password);
+
+        dispatchProps.registerAction(formData);
+    }),
+    "fileChangedHandler" : (event,input) => {
+        let files  = event.target.files[0];
+        input.onChange(files);
+        event.target.value = null;
+    } 
 });
 
 const connectedRegisterContainer = connect(mapStateToProps, mapDispatchToProps,mergeProps)(Register);
@@ -65,3 +86,7 @@ const RegisterContainer = reduxForm({
 })(connectedRegisterContainer);
 
 export default RegisterContainer;
+
+
+
+

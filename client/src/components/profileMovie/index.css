@@ -1,0 +1,23 @@
+.root {
+    background-color: inherit;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.9;
+    margin: 10px;
+}
+
+.image {
+    width: 600px;
+    height: 650px;
+}
+
+.commentTextField {
+    max-width: 1000px;
+    margin: 70px;
+}
+
+Ï .textField {
+    width: 1000px;
+}

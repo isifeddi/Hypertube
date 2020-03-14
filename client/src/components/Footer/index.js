@@ -22,26 +22,26 @@ var phantom = {
 }
 
 const Copyright = () => {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-          {'Copyright © '}
-          <Hink color="inherit" href="#">
-            HYPERTUBE
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Hink color="inherit" href="#">
+        HYPERTUBE
           </Hink>{' '}
-          {new Date().getFullYear()}
-          {'.'}
-        </Typography>
-    );
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
 }
 
 const Footer = () => {
-  return(
+  return (
     <div>
-      <div style={phantom}/>
+      <div style={phantom} />
       <div style={style}>
         <Copyright />
-      </div>  
-    </div>      
+      </div>
+    </div>
   );
 }
 

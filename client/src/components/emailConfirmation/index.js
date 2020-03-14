@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
@@ -23,7 +23,7 @@ const EmailConfirmation = (props) => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
 
-    {props.status !== 'loading' && <div className={classes.paper}>
+      {props.status !== 'loading' && <div className={classes.paper}>
         <Typography variant="h4" color="primary">
           Email confirmation
         </Typography>
@@ -32,11 +32,11 @@ const EmailConfirmation = (props) => {
         </Typography>}
         {props.status === 'success' && <Typography variant="h6" color="inherit">
           <CheckCircleIcon /> Email verified successfully.
-          <br/>
-          You can now <Link to="/login"  style={{textDecoration: 'none', color:'#3f51b5'}}>Login</Link>
+          <br />
+          You can now <Link to="/login" style={{ textDecoration: 'none', color: '#3f51b5' }}>Login</Link>
         </Typography>}
       </div>}
-      {props.status === "loading" && <div className={classes.paper} style={{marginTop: "300px"}}><CircularProgress color="secondary" /></div>}
+      {props.status === "loading" && <div className={classes.paper} style={{ marginTop: "300px" }}><CircularProgress color="secondary" /></div>}
     </Container>
   );
 }

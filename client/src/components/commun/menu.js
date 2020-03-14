@@ -2,7 +2,7 @@ import React from 'react';
 import Menu from '@material-ui/core/Menu';
 
 const MyMenu = (props) => {
-  const {handleClose, state, children} = props;
+  const { handleClose, state, children } = props;
   return (
     <>
       <Menu
@@ -21,7 +21,7 @@ const MyMenu = (props) => {
         }}
       >
         <div>
-            {children}
+          {children}
         </div>
       </Menu>
     </>

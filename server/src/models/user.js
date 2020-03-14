@@ -5,40 +5,38 @@ const SELECT = queries.SELECT;
 const INSERT = queries.INSERT;
 const UPDATE = queries.UPDATE;
 const DELETE = queries.DELETE;
-
+const tools = require('../tools')
 module.exports = {
-    Register :function  (lastname, firstname, username, email, password) {
-        conn.query(INSERT.AddUser, [lastname, firstname, username, email, password],(err,res) => {
+    Register :function  (lastname, firstname, username, email, password,picture,omni_id) {
+        conn.query(INSERT.AddUser, [lastname, firstname, username, email, password,picture,omni_id],(err,res) => {
             if(err)
             {
                 throw err;
             }
         });
     },
-    getUser:  function  (type, value) {
-        return new Promise ( (resolve, reject) =>  {
+    getUser:   function  (type, value) {
+        return new Promise ( (resolve, reject) => {
              conn.query(SELECT[type], value,(err,res) => {
                 if(err)
                     reject(err);
                 else
                 {
-                    const data = JSON.parse(JSON.stringify(res));
-                    if(data[0])
-                    {
-                       this.getUserInterests(data[0].id)
-                        .then(async (response) => {
-                            interests  = response;
-                            data[0].birthday = data[0].transDate;
-                            data[0].interests = interests;
-                            let token = await jwt.sign(data[0], 'fuckingSecretKey');
-                            data[0].token = token;
-                            resolve(data[0]);
-                        }).catch((error)  => {console.log(error)})
-                    }else
-                    {
-                        resolve(null)
+                    if (!tools.isEmpty(res)){
+                        const data = JSON.parse(JSON.stringify(res))[0];
+                        let datatoken = JSON.parse(JSON.stringify(res))[0];
+                        delete datatoken.password;
+                        delete datatoken.verif_token;
+                        let token =  jwt.sign(datatoken, 'MyChouaibKEY');
+                        data.token = token;
+                        resolve(data);
                     }
+                    else
+                        resolve(null)
                 }
+                   
+                     
+
             });
         })
     },
@@ -63,16 +61,35 @@ module.exports = {
         })
     },
     select: function (type, value){
+    
         return new Promise ((resolve, reject) => {
             conn.query(SELECT[type], value,(err,res) => {
                 if(err)
                     reject(err);
                 else
+                { 
+                    if(tools.isEmpty(res))
+                        resolve(false)
+                    else
                     resolve(JSON.parse(JSON.stringify(res)));
+                }
+            });
+        })
+    },
+    getComment: function (type, value){
+        return new Promise ((resolve, reject) => {
+            conn.query(SELECT[type], value,(err,res) => {
+                if(err)
+                    reject(err);
+                else
+                { 
+                    resolve(JSON.parse(JSON.stringify(res)));
+                }
             });
         })
     },
     delete: function (type, value){
+
         return new Promise ((resolve, reject) => {
             conn.query(DELETE[type], value,(err,res) => {
                 if(err)
@@ -119,17 +136,6 @@ module.exports = {
                     reject (err);
                 else
                     resolve (res);
-            });
-        })
-    },
-    updateInfo: function (gender, sexOrient, birthday, age, bio, id) {
-        return new Promise ((resolve, reject) => {
-            conn.query(UPDATE.UpdateInfo, [gender, sexOrient, birthday, age, bio, id], (err,res) => {
-                if(err)
-                    reject(err);
-                else{
-                    resolve(res);
-                }
             });
         })
     },

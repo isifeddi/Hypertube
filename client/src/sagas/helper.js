@@ -4,7 +4,7 @@ export const request = (config, token)=> {
 
   const responsePromise = axios({
     ...config,
-    //"headers": {"Authorization": token},
+    "headers": {"Authorization": token},
   });
   return responsePromise;
 };

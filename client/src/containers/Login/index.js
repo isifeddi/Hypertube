@@ -24,6 +24,7 @@ const mapStateToProps = (state) => (
     "errors": state.login.error,
     "token" : state.user,
     "registredStatus": state.register.registerStatus,
+
 });
 const mapDispatchToProps = {
     "loginAction": LoginAction

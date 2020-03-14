@@ -13,13 +13,13 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: '0px',
-    borderRadius : '20px',
+    borderRadius: '20px',
     outline: 0,
   },
 }));
 
 export default function MyModal(props) {
-  const {isOpen, children, handleClose} = props;
+  const { isOpen, children, handleClose } = props;
   const classes = useStyles();
   return (
     <div>

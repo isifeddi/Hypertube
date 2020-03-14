@@ -1,28 +1,56 @@
-const user = require ('../../models/user');
-let cloudscraper = require('cloudscraper');
+const getAllMovies = require('./getAllMovies');
+const getFilteredMovies = require('./getFilteredMovies');
+const getMoviesByName = require('./getMoviesByName');
+const tools = require('../../tools/index');
+const user = require('../../models/user')
+const fs = require('fs-extra')
+const getDate = (date) =>{
+    const today = new Date();
+    const movieDate = new Date(date);
+    const diff = today - movieDate;
+    if(diff >= 2592000000)
+        return true;
+    else
+        return false
+}
 
-getMovies = (req, res) => {
-    const page = req.body.page;
-    cloudscraper.get(`https://tv-v2.api-fetch.website/movies/${page}?sorta=rating&order=-1`)
-    .then(resp => {
-        let result1 = JSON.parse(resp);
-        if(result1.length > 0 && result1[0].title)
+getMovies = async (req, res) => {
+    const seenMovies = await user.select("getAllSeenMovies");
+    for(var i =0; i < seenMovies.length; i++)
+    {
+        if(getDate(seenMovies[i].date))
         {
-            res.send(result1);
+            fs.remove(`./src/movies_Hash/torrent-stream/${seenMovies[i].hash}`, err => {
+                if (err) return console.error(err)
+              })
+              fs.remove(`./src/movies_Hash/torrent-stream/${seenMovies[i].hash}.torrent`, err => {
+                if (err) return console.error(err)
+              })
+        }
+    }
+
+    const filter = req.body.filter;
+    if(tools.isSort(filter.sortBy) && tools.isCategory(filter.category) && tools.isTitle(filter.title) && tools.isPage(filter.page)){
+        if(filter.title !== null)
+        {
+            const data = await getMoviesByName(filter);
+            res.send(data);
         }
         else
         {
-            cloudscraper.get(`https://yts.unblocked4u.org/api/v2/list_movies.json/?limit=50&sort_by=rating&page=${page}`)
-            .then(resp => {
-                let result2 = JSON.parse(resp);
-                if(result2.status === 'ok' && result2.data.movies.length > 0)
-                {
-                    res.send(result2.data.movies);
-                }
-            })
-            .catch(err => {});
+            if(filter.category === null && filter.sortBy === null){
+                const data = await getAllMovies(filter);
+                res.send(data);
+            }
+            else{
+                const data = await getFilteredMovies(filter);
+                res.send(data);
+            }
         }
-    })
-    .catch(err => {});
+    }
+    else{
+        res.send([]);
+    }
+        
 }
 module.exports = getMovies;
