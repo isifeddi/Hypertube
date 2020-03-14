@@ -69,7 +69,7 @@ The page of the streaming film contain also a bunch of similiar films.
 <hr>
 
 > # Created By : 
--  SIFFEDINE Ilyas
+-  SIFEDDINE Ilyas
 -  GOULMANE Mouad
 -  ELMAKHLOUK Chouaib 
--  BOUROUMANA Ismail
+-  BOUROUMMANA Ismail
