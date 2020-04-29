@@ -5,27 +5,21 @@
 <hr>
 
 > # Hypertube
-Web Application for searching and streaming films - 1337 school (42 network) project.
+A streaming web application - 1337 school (42 network) project.
 
 <hr>
 
 > # Description
 The aim of this application is to search and watch recents films with subtitles.
 
-Users have access to the whole website after creating their account, 
-they can do it either by the normal way or via Oauth with the following website:
+After creating an account, either by the normal way or via Oauth with the following websites:
 - 42
 - Google
 - Github
 - Linkedin
 - Spotify
 
-The users have the possibility watch films with several qualities and they can choise 
-the language of the subtitle they want
-They can also comment their favourite films, no to mention that the application save the history of these films
-to rewatch later
-
-The page of the streaming film contain also a bunch of similiar films.
+Users can watch movies with several qualities and subtitles, with search and filter feature. They can also comment in the movie page. The movie page contains also similar movies.
 
 <hr>
 
