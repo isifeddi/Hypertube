@@ -10,8 +10,6 @@ A streaming web application - 1337 school (42 network) project.
 <hr>
 
 > # Description
-The aim of this application is to search and watch recents films with subtitles.
-
 After creating an account, either by the normal way or via Oauth with the following websites:
 - 42
 - Google
