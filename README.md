@@ -18,6 +18,7 @@ After creating an account, either by the normal way or via Oauth with the follow
 - Spotify
 
 Users can watch movies with several qualities and subtitles, with search and filter feature. They can also comment in the movie page. The movie page contains also similar movies.
+Users can also see the movies they have already watched.
 
 <hr>
 
